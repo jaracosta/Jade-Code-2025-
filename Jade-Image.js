@@ -1,23 +1,27 @@
-let baby;
-let furby;
-let Persons;
-let apples;
-let Smile;
-let picnic; 
+let baby, smile, persons, apples, picnic, furby, birds;
+let furbyX = 370;
+let furbyY = 280;
+
+let cloud1X = 120;
+let cloud2X = 300;
+
+let birdsX = -200;
+let birdsY = 50;
+let birdsActive = false;
 
 function preload() {
-  // Load images before setup
   baby = loadImage("dancingbaby2.gif");
+  smile = loadImage("Smile.png");
+  persons = loadImage("persons.png");
+  apples = loadImage("apples.png");
+  picnic = loadImage("picnic.png");
   furby = loadImage("furby.png");
-  Persons = loadImage("Persons.png") //group of people image
-  apples =  loadImage("apples.png")  //apple image
-  Smile = loadImage("Smile.png")     //happy face image
-  picnic = loadImage("picnic.png")   // Load picnic table image
-} 
+  birds = loadImage("Birds.png"); // New birds image
+}
 
 function setup() {
   createCanvas(600, 400);
-  noStroke(); // No borders for shapes
+  noStroke();
 }
 
 function draw() {
@@ -26,9 +30,9 @@ function draw() {
   // Sun
   fill(255, 204, 0);
   ellipse(500, 80, 80, 80);
-  image(Smile, 460, 40, 80, 80); // Draw smile over the sun
+  image(smile, 460, 40, 80, 80);
 
-  // Hills (arcs)
+  // Hills
   fill(34, 139, 34);
   arc(200, 400, 400, 300, PI, TWO_PI);
   arc(450, 400, 400, 250, PI, TWO_PI);
@@ -39,52 +43,69 @@ function draw() {
 
   // House
   fill(255, 0, 0);
-  rect(100, 220, 120, 80); // House body
-
+  rect(100, 220, 120, 80);
   fill(139, 69, 19);
-  triangle(100, 220, 160, 170, 220, 220); // Roof
-
-  // Door
+  triangle(100, 220, 160, 170, 220, 220);
   fill(210, 180, 140);
   rect(145, 260, 30, 40);
 
-  // Tree trunk
+  // Tree
   fill(139, 69, 19);
   rect(400, 240, 20, 60);
-
-  // Tree foliage
   fill(34, 139, 34);
   ellipse(410, 220, 60, 60);
   ellipse(390, 230, 60, 60);
   ellipse(430, 230, 60, 60);
 
-  // Add apples inside the tree foliage
-  image(apples, 395, 215, 25, 25); // Apple 1
-  image(apples, 410, 230, 25, 25); // Apple 2
-  image(apples, 380, 225, 25, 25); // Apple 3
+  // Apples in tree
+  image(apples, 395, 215, 25, 25);
+  image(apples, 410, 230, 25, 25);
+  image(apples, 380, 225, 25, 25);
 
-
-  // Cloud 1
+  // Clouds
   fill(255);
-  ellipse(120, 80, 40, 40);
-  ellipse(140, 70, 50, 50);
-  ellipse(160, 80, 40, 40);
+  ellipse(cloud1X, 80, 40, 40);
+  ellipse(cloud1X + 20, 70, 50, 50);
+  ellipse(cloud1X + 40, 80, 40, 40);
 
-  // Cloud 2
-  ellipse(300, 60, 40, 40);
-  ellipse(320, 50, 50, 50);
-  ellipse(340, 60, 40, 40);
+  ellipse(cloud2X, 60, 40, 40);
+  ellipse(cloud2X + 20, 50, 50, 50);
+  ellipse(cloud2X + 40, 60, 40, 40);
 
-  // Draw baby near the door
+  // Baby
   image(baby, 180, 260, 40, 60);
 
-  // Draw furby next to the tree trunk
-  image(furby, 370, 280, 40, 50);
+  // Persons
+  image(persons, 440, 260, 120, 100);
 
-   // Draw group of persons next to the tree trunk
-  image(Persons, 440, 260, 120, 100);
-  
-  // Picnic table near the tree trunk
-  image(picnic, 350, 290, 60, 40); // Adjust size and position as needed
+  // Picnic
+  image(picnic, 350, 290, 60, 40);
 
+  // Furby
+  image(furby, furbyX, furbyY, 40, 50);
+
+  // Birds movement
+  if (birdsActive) {
+    image(birds, birdsX, birdsY, 200, 100);
+    birdsX += 2;
+
+    if (birdsX > width + 100) {
+      birdsActive = false; // Stop showing birds once off screen
+    }
+  }
+}
+
+function mousePressed() {
+  // Move Furby
+  furbyX = random(0, width - 40);
+  furbyY = random(200, height - 50);
+
+  // Move clouds
+  cloud1X = random(50, 250);
+  cloud2X = random(280, 500);
+
+  // Launch birds
+  birdsX = -200;
+  birdsY = random(40, 120);
+  birdsActive = true;
 }
